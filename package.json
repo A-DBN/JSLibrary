@@ -1,0 +1,24 @@
+{
+  "name": "alltools",
+  "version": "1.0.0",
+  "description": "Bunch of usefull functions to simplify code",
+  "main": "index.js",
+  "author": "A-DBN",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  }
+}
