@@ -177,3 +177,27 @@ export const _forEachInObject = (obj, callback) => {
         callback(obj[key], key);
     });
 };
+
+
+/**
+ * Removes all duplicates from an array.
+ * 
+ * @param {Array} array - The array to remove duplicates from.
+ * @param {Array} [except=[]] - An optional array of values to exclude from the removal.
+ * @returns {Array} A new array with all duplicates removed.
+ * 
+ * @example
+ * 
+ * const myArray = [1, 2, 3, 1, 2, 3, 4, 5];
+ * const newArray = _removeDuplicates(myArray);
+ * console.log(newArray); // logs [1, 2, 3, 4, 5]
+ * 
+ * @example
+ * const myArray = [1, 2, 3, 1, 2, 3, 4, 5];
+ * const newArray = _removeDuplicates(myArray, [1, 2]);
+ * console.log(newArray); // logs [1, 2, 3, 1, 2, 4, 5]
+ * 
+ */
+export const _removeDuplicates = (array, except = []) => {
+    return array.filter((value, index, self) => self.indexOf(value) === index || except.includes(value));
+}
