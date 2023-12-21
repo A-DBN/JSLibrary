@@ -3,9 +3,18 @@
   "version": "1.0.0",
   "description": "Bunch of usefull functions to simplify code",
   "main": "src/index.js",
-  "author": "A-DBN",
-  "license": "MIT",
+  "license": "ISC",
   "type": "module",
+  "author": "Antoine Dabin",
+  "homepage": "https://github.com/A-DBN/JSLibrary",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:A-DBN/JSLibrary.git"
+  },
+  "keywords": [
+    "javascript",
+    "utils"
+  ],
   "dependencies": {
     "@babel/cli": "^7.23.4",
     "@babel/core": "^7.23.6",
