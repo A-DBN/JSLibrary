@@ -201,3 +201,80 @@ export const _forEachInObject = (obj, callback) => {
 export const _removeDuplicates = (array, except = []) => {
     return array.filter((value, index, self) => self.indexOf(value) === index || except.includes(value));
 }
+
+
+/**
+ * Converts an object, including nested objects and arrays, to an array of key-value pairs.
+ * The conversion is recursive, preserving the structure of nested objects and arrays.
+ *
+ * @param {Object} obj - The object to convert.
+ * @returns {Array} An array of key-value pairs. For nested objects, the value is an array of key-value pairs representing the nested structure.
+ *
+ * @example
+ *
+ * const myObject = {
+ *   a: [1, 2, 3],
+ *   b: {
+ *     c: [4, 5, 6],
+ *     d: {
+ *       e: [7, 8, 9]
+ *     }
+ *   }
+ * };
+ * const myArray = _ObjectToArray(myObject);
+ *
+ * console.log(myArray); // logs [['a', [1, 2, 3]], ['b', [['c', [4, 5, 6]], ['d', [['e', [7, 8, 9]]]]]]
+ */
+
+export const _ObjectToArray = (obj) => {
+    if (typeof obj !== 'object' || obj === null) {
+        throw new Error('Input is not an object');
+    }
+
+    const transform = (item) => {
+        if (Array.isArray(item)) {
+            return item;
+        } else if (typeof item === 'object') {
+            return Object.entries(item).map(([key, val]) => [key, transform(val)]);
+        } else {
+            return item;
+        }
+    };
+
+    return transform(obj);
+}
+
+/**
+ * Converts an array of key-value pairs to an object.
+ * 
+ * @param {Array} array - The array to convert.
+ * @param {Number} [key = 0] - Either 0 or 1 to specify which element of the pair is the key.
+ * 
+ * @example
+ * 
+ * const myArray = [['a', 10], ['b', 20], ['c', 30]];
+ * const myObject = _ArrayToObject(myArray, 0);
+ * 
+ * console.log(myObject); // logs { a: 10, b: 20, c: 30 }
+ * 
+ * @example
+ * 
+ * const myArray = [['a', 10], ['b', 20], ['c', 30]];
+ * const myObject = _ArrayToObject(myArray, 1);
+ * 
+ * console.log(myObject); // logs { 10: 'a', 20: 'b', 30: 'c' }
+ */
+export const _ArrayToObject = (array, keyIndex = 0) => {
+    return array.reduce((acc, item) => {
+        if (keyIndex < 0 || keyIndex >= item.length) {
+            throw new Error('Key index is out of bounds');
+        }
+
+        const key = item[keyIndex];
+        const values = [...item.slice(0, keyIndex), ...item.slice(keyIndex + 1)];
+
+        acc[key] = values.length > 1 ? values : values[0] || null;
+        return acc;
+    }, {});
+}
+

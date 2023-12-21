@@ -1,8 +1,8 @@
 {
-  "name": "alltools",
+  "name": "dynamic-utils",
   "version": "1.0.0",
   "description": "Bunch of usefull functions to simplify code",
-  "main": "index.js",
+  "main": "src/index.js",
   "author": "A-DBN",
   "license": "MIT",
   "type": "module",

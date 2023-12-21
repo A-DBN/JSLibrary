@@ -111,3 +111,69 @@ describe('_removeDuplicates function tests', () => {
         expect(result).toEqual([]);
     });
 });
+
+describe('_ObjectToArray function tests', () => {
+    test('should correctly convert simple object to array of key-value pairs', () => {
+        const myObject = { a: 10, b: 20, c: 30 };
+        const result = lib._ObjectToArray(myObject);
+        expect(result).toEqual([['a', 10], ['b', 20], ['c', 30]]);
+    });
+
+    test('should correctly handle nested objects and arrays', () => {
+        const myObject = {
+            a: [1, 2, 3],
+            b: {
+                c: [4, 5, 6],
+                d: {
+                    e: [7, 8, 9]
+                }
+            }
+        };
+        const result = lib._ObjectToArray(myObject);
+        expect(result).toEqual([['a', [1, 2, 3]], ['b', [['c', [4, 5, 6]], ['d', [['e', [7, 8, 9]]]]]]]);
+    });
+
+    test('should return empty array for empty object', () => {
+        const myObject = {};
+        const result = lib._ObjectToArray(myObject);
+        expect(result).toEqual([]);
+    });
+
+    test('should throw error for non-object types', () => {
+        expect(() => lib._ObjectToArray(null)).toThrow();
+        expect(() => lib._ObjectToArray(undefined)).toThrow();
+        expect(() => lib._ObjectToArray(123)).toThrow();
+        expect(() => lib._ObjectToArray('string')).toThrow();
+        expect(() => lib._ObjectToArray(true)).toThrow();
+    });
+});
+
+
+describe('_ArrayToObject function tests', () => {
+    test('should convert array to object with key at index 0', () => {
+        const myArray = [['a', 10], ['b', 20], ['c', 30]];
+        const result = lib._ArrayToObject(myArray, 0);
+        expect(result).toEqual({ a: 10, b: 20, c: 30 });
+    });
+
+    test('should convert array to object with key at index 1', () => {
+        const myArray = [['a', 10], ['b', 20], ['c', 30]];
+        const result = lib._ArrayToObject(myArray, 1);
+        expect(result).toEqual({ 10: 'a', 20: 'b', 30: 'c' });
+    });
+
+    test('should handle arrays with more than two elements', () => {
+        const myArray = [['a', 10, 'x'], ['b', 20, 'y'], ['c', 30, 'z']];
+        const result = lib._ArrayToObject(myArray, 0);
+        expect(result).toEqual({ a: [10, 'x'], b: [20, 'y'], c: [30, 'z'] });
+    });
+
+    test('should throw error if key is out of scope', () => {
+        const myArray = [['a', 10], ['b', 20]];
+        expect(() => {
+            lib._ArrayToObject(myArray, 2);
+        }).toThrow('Key index is out of bounds');
+    });
+});
+
+
