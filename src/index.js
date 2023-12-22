@@ -67,16 +67,16 @@ export const _case = (variable, ...couples) => {
  *
  * @example
  * // Using a synchronous process function
- * const jsonObject = _FiletoJson('path/to/file.json', {}, data => processData(data));
+ * const jsonObject = _fileToJson('path/to/file.json', {}, data => processData(data));
  * console.log(jsonObject);
  *
  * @example
  * // Using an asynchronous process function
- * _FiletoJson('path/to/file.json', {}, async data => {
+ * _fileToJson('path/to/file.json', {}, async data => {
  *   return await processAsync(data);
  * }).then(result => console.log(result));
  */
-export const _FiletoJson = (path, options = {}, processFunction) => {
+export const _fileToJson = (path, options = {}, processFunction) => {
     const data = fs.readFileSync(path, { encoding: options.encoding || 'utf-8', flag: options.flag || '' });
     const parsedData = JSON.parse(data);
 
@@ -221,12 +221,12 @@ export const _removeDuplicates = (array, except = []) => {
  *     }
  *   }
  * };
- * const myArray = _ObjectToArray(myObject);
+ * const myArray = _objectToArray(myObject);
  *
  * console.log(myArray); // logs [['a', [1, 2, 3]], ['b', [['c', [4, 5, 6]], ['d', [['e', [7, 8, 9]]]]]]
  */
 
-export const _ObjectToArray = (obj) => {
+export const _objectToArray = (obj) => {
     if (typeof obj !== 'object' || obj === null) {
         throw new Error('Input is not an object');
     }
@@ -253,18 +253,18 @@ export const _ObjectToArray = (obj) => {
  * @example
  * 
  * const myArray = [['a', 10], ['b', 20], ['c', 30]];
- * const myObject = _ArrayToObject(myArray, 0);
+ * const myObject = _arrayToObject(myArray, 0);
  * 
  * console.log(myObject); // logs { a: 10, b: 20, c: 30 }
  * 
  * @example
  * 
  * const myArray = [['a', 10], ['b', 20], ['c', 30]];
- * const myObject = _ArrayToObject(myArray, 1);
+ * const myObject = _arrayToObject(myArray, 1);
  * 
  * console.log(myObject); // logs { 10: 'a', 20: 'b', 30: 'c' }
  */
-export const _ArrayToObject = (array, keyIndex = 0) => {
+export const _arrayToObject = (array, keyIndex = 0) => {
     return array.reduce((acc, item) => {
         if (keyIndex < 0 || keyIndex >= item.length) {
             throw new Error('Key index is out of bounds');
@@ -278,3 +278,29 @@ export const _ArrayToObject = (array, keyIndex = 0) => {
     }, {});
 }
 
+/**
+ * Recursively filters an array, including any nested arrays, based on the specified types.
+ * Only elements whose type matches one of the specified types are retained in the final array.
+ * 
+ * @param {Array} array - The array to be filtered. This can include nested arrays.
+ * @param {...string} types - The variable number of arguments representing the allowed types 
+ *                            (e.g., 'string', 'number', 'boolean') for the elements in the array.
+ * @returns {Array} A new array containing only the elements (and nested elements) 
+ *                  of the specified types.
+ * 
+ * @example
+ * // Filter for numbers and strings only
+ * _filterArray([1, 'hello', [2, true, 'world'], {foo: 'bar'}], 'number', 'string');
+ * // Returns [1, 'hello', [2, 'world']]
+ */
+export const _filterArray = (array, ...types) => {
+    return array.reduce((acc, item) => {
+        if (Array.isArray(item)) {
+            acc.push(_filterArray(item, ...types));
+        } 
+        else if (types.includes(typeof item)) {
+            acc.push(item);
+        }
+        return acc;
+    }, []);
+};

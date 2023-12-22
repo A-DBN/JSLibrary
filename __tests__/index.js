@@ -112,10 +112,10 @@ describe('_removeDuplicates function tests', () => {
     });
 });
 
-describe('_ObjectToArray function tests', () => {
+describe('_objectToArray function tests', () => {
     test('should correctly convert simple object to array of key-value pairs', () => {
         const myObject = { a: 10, b: 20, c: 30 };
-        const result = lib._ObjectToArray(myObject);
+        const result = lib._objectToArray(myObject);
         expect(result).toEqual([['a', 10], ['b', 20], ['c', 30]]);
     });
 
@@ -129,50 +129,82 @@ describe('_ObjectToArray function tests', () => {
                 }
             }
         };
-        const result = lib._ObjectToArray(myObject);
+        const result = lib._objectToArray(myObject);
         expect(result).toEqual([['a', [1, 2, 3]], ['b', [['c', [4, 5, 6]], ['d', [['e', [7, 8, 9]]]]]]]);
     });
 
     test('should return empty array for empty object', () => {
         const myObject = {};
-        const result = lib._ObjectToArray(myObject);
+        const result = lib._objectToArray(myObject);
         expect(result).toEqual([]);
     });
 
     test('should throw error for non-object types', () => {
-        expect(() => lib._ObjectToArray(null)).toThrow();
-        expect(() => lib._ObjectToArray(undefined)).toThrow();
-        expect(() => lib._ObjectToArray(123)).toThrow();
-        expect(() => lib._ObjectToArray('string')).toThrow();
-        expect(() => lib._ObjectToArray(true)).toThrow();
+        expect(() => lib._objectToArray(null)).toThrow();
+        expect(() => lib._objectToArray(undefined)).toThrow();
+        expect(() => lib._objectToArray(123)).toThrow();
+        expect(() => lib._objectToArray('string')).toThrow();
+        expect(() => lib._objectToArray(true)).toThrow();
     });
 });
 
 
-describe('_ArrayToObject function tests', () => {
+describe('_arrayToObject function tests', () => {
     test('should convert array to object with key at index 0', () => {
         const myArray = [['a', 10], ['b', 20], ['c', 30]];
-        const result = lib._ArrayToObject(myArray, 0);
+        const result = lib._arrayToObject(myArray, 0);
         expect(result).toEqual({ a: 10, b: 20, c: 30 });
     });
 
     test('should convert array to object with key at index 1', () => {
         const myArray = [['a', 10], ['b', 20], ['c', 30]];
-        const result = lib._ArrayToObject(myArray, 1);
+        const result = lib._arrayToObject(myArray, 1);
         expect(result).toEqual({ 10: 'a', 20: 'b', 30: 'c' });
     });
 
     test('should handle arrays with more than two elements', () => {
         const myArray = [['a', 10, 'x'], ['b', 20, 'y'], ['c', 30, 'z']];
-        const result = lib._ArrayToObject(myArray, 0);
+        const result = lib._arrayToObject(myArray, 0);
         expect(result).toEqual({ a: [10, 'x'], b: [20, 'y'], c: [30, 'z'] });
     });
 
     test('should throw error if key is out of scope', () => {
         const myArray = [['a', 10], ['b', 20]];
         expect(() => {
-            lib._ArrayToObject(myArray, 2);
+            lib._arrayToObject(myArray, 2);
         }).toThrow('Key index is out of bounds');
+    });
+});
+
+describe('_filterArray function tests', () => {
+    test('filters for a single type', () => {
+        const result = lib._filterArray([1, 'hello', true, 2], 'number');
+        expect(result).toEqual([1, 2]);
+    });
+
+    test('filters for multiple types', () => {
+        const result = lib._filterArray([1, 'hello', true, 2], 'number', 'string');
+        expect(result).toEqual([1, 'hello', 2]);
+    });
+
+    test('filters nested arrays', () => {
+        const result = lib._filterArray([1, ['hello', 2, false], true, 3], 'number');
+        expect(result).toEqual([1, [2], 3]);
+    });
+
+    test('handles empty arrays', () => {
+        const result = lib._filterArray([], 'number');
+        expect(result).toEqual([]);
+    });
+
+    test('handles arrays with no matching types', () => {
+        const result = lib._filterArray([true, 'hello', {}], 'number');
+        expect(result).toEqual([]);
+    });
+
+    test('maintains nested array structure', () => {
+        const result = lib._filterArray([1, ['hello', [2, 'world']], true], 'string');
+        expect(result).toEqual([['hello', ['world']]]);
     });
 });
 

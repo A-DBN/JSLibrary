@@ -20,21 +20,21 @@ Import the functions from the library as follows:
 ```js
 import {
   _case,
-  _FiletoJson,
+  _filetoJson,
   _wait,
   _createShellCommands,
   _forEachInObject,
   _removeDuplicates,
-  _ObjectToArray,
-  _ArrayToObject
+  _objectToArray,
+  _arrayToObject
 } from 'dynamic-utils';
 ```
 
 ## Functions
 
-``_case(variable, ...couples[, defaultFunc])``: Acts as a dynamic switch-case structure.
+``_case(variable, ...couples[, defaultFunc])`: Acts as a dynamic switch-case structure.
 
-`_FiletoJson(path[, options, processFunction])`: Reads a JSON file and converts it to a JSON object. Can take a processing function.
+`_filetoJson(path[, options, processFunction])`: Reads a JSON file and converts it to a JSON object. Can take a processing function.
 
 `_wait(value, unit)`: Returns a Promise that resolves after the specified time.
 
@@ -44,9 +44,11 @@ import {
 
 `_removeDuplicates(array[, except])`: Removes duplicates from an array, with an option to exclude certain values.
 
-`_ObjectToArray(obj)`: Converts an object to an array of key-value pairs, including for nested structures.
+`_objectToArray(obj)`: Converts an object to an array of key-value pairs, including for nested structures.
 
-`_ArrayToObject(array[, keyIndex])`: Converts an array of key-value pairs to an object.
+`_arrayToObject(array[, keyIndex])`: Converts an array of key-value pairs to an object.
+
+`_filterArray(array, ...types)`: Filters nested arrays following the types given as parameters.
 
 ## Exemples
 
@@ -68,11 +70,11 @@ console.log(result); // Output: 'Default case executed'
 
 ```js
 // Synchronous processing
-const jsonObject = _FiletoJson('path/to/file.json', {}, data => processData(data));
+const jsonObject = _filetoJson('path/to/file.json', {}, data => processData(data));
 console.log(jsonObject);
 
 // Asynchronous processing
-_FiletoJson('path/to/file.json', {}, async data => {
+_filetoJson('path/to/file.json', {}, async data => {
   return await processAsync(data);
 }).then(result => console.log(result));
 ```
@@ -96,6 +98,13 @@ const myObject = { a: 10, b: 20, c: 30 };
 _forEachInObject(myObject, (value, key) => {
   console.log(`Key ${key}: Value ${value}`);
 });
+```
+
+### Filter arrays with multiple types
+```js
+const array =  _filterArray([1, 'hello', [2, true, 'world'], {foo: 'bar'}], 'number', 'string');
+console.log(array) // Output: [1, 'hello', [2, 'world']]
+
 ```
 
 ## Contributing
