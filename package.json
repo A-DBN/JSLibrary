@@ -1,7 +1,7 @@
 {
   "name": "dynamic-utils",
   "version": "1.0.1",
-  "description": "Bunch of usefull functions to simplify code",
+  "description": "Bunch of usefull functions",
   "main": "src/index.js",
   "license": "ISC",
   "type": "module",
@@ -15,13 +15,6 @@
     "javascript",
     "utils"
   ],
-  "dependencies": {
-    "@babel/cli": "^7.23.4",
-    "@babel/core": "^7.23.6",
-    "@babel/preset-env": "^7.23.6",
-    "babel-jest": "^29.7.0",
-    "jest": "^29.7.0"
-  },
   "scripts": {
     "test": "jest"
   },
@@ -29,5 +22,12 @@
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
   }
 }

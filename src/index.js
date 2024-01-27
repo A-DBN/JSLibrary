@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import { exec } from 'child_process';
 
 /**
@@ -77,7 +77,7 @@ export const _case = (variable, ...couples) => {
  * }).then(result => console.log(result));
  */
 export const _fileToJson = (path, options = {}, processFunction) => {
-    const data = fs.readFileSync(path, { encoding: options.encoding || 'utf-8', flag: options.flag || '' });
+    const data = fs.readFileSync(path, { encoding: options.encoding || 'utf-8', flag: options.flag || undefined });
     const parsedData = JSON.parse(data);
 
     if (processFunction) {
