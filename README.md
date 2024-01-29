@@ -4,7 +4,7 @@ Dynamic-Utils is a JavaScript utility library providing a set of functions for c
 
 ## Installation
 
-You can install DynamicUtils using npm or yarn:
+You can install Dynamic-Utils using npm or yarn:
 
 ```bash
 npm install dynamic-utils
@@ -107,6 +107,13 @@ console.log(array) // Output: [1, 'hello', [2, 'world']]
 
 ```
 
+### Insert into array with float index
+```js
+const array = [1, 2, 3, 4, 5];
+
+console.log(_insertAt(array, 3.14, 'a', 'b', true)) // Output: [1, 2, 3, 'a', 'b', true, 4, 5]
+```
+
 ## Contributing
 
-Contributions are always welcome! Please read the contribution guidelines first.
+Contributions and feedbacks are always welcome!

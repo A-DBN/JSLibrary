@@ -208,4 +208,41 @@ describe('_filterArray function tests', () => {
     });
 });
 
+describe('_insertAt function tests', () => {
+    test('should insert elements at an integer index', () => {
+        const originalArray = [1, 2, 3, 4];
+        const result = lib._insertAt(originalArray, 2, 'a', 'b');
+        expect(result).toEqual([1, 2, 'a', 'b', 3, 4]);
+    });
 
+    test('should insert elements at a floating point index', () => {
+        const originalArray = [1, 2, 3, 4];
+        const result = lib._insertAt(originalArray, 3.14, 'a', 'b');
+        console.log(result);
+        expect(result).toEqual([1, 2, 3, 'a', 'b', 4]);
+    });
+
+    test('should insert elements at the beginning of the array', () => {
+        const originalArray = [1, 2, 3, 4];
+        const result = lib._insertAt(originalArray, 0, 'a', 'b');
+        expect(result).toEqual(['a', 'b', 1, 2, 3, 4]);
+    });
+
+    test('should insert elements at the end of the array', () => {
+        const originalArray = [1, 2, 3, 4];
+        const result = lib._insertAt(originalArray, 4, 'a', 'b');
+        expect(result).toEqual([1, 2, 3, 4, 'a', 'b']);
+    });
+
+    test('should handle negative indices by not inserting elements', () => {
+        const originalArray = [1, 2, 3, 4];
+        const result = lib._insertAt(originalArray, -1, 'a', 'b');
+        expect(result).toEqual([1, 2, 3, 4]);
+    });
+
+    test('should handle indices greater than array length by not inserting elements', () => {
+        const originalArray = [1, 2, 3, 4];
+        const result = lib._insertAt(originalArray, 5, 'a', 'b');
+        expect(result).toEqual([1, 2, 3, 4]);
+    });
+});

@@ -304,3 +304,40 @@ export const _filterArray = (array, ...types) => {
         return acc;
     }, []);
 };
+
+/**
+ * 
+ * You are probably wondering why this function exists.
+ * Well, I don't know either. I just wanted to do it.
+ * 
+ * Inserts elements into an array at a specified index, accommodating for floating point indices.
+ * When a floating point index is provided, the function interprets the index to insert elements
+ * between the two integer positions denoted by the floor and ceiling of the index.
+ *
+ * @param {Array} array - The original array into which elements are to be inserted.
+ * @param {Number} index - The index at which the elements are to be inserted. 
+ *                         If it's a floating point number, insertion is done between 
+ *                         the integer positions defined by the floor and ceiling of this index.
+ * @param {...any} elements - The elements to be inserted into the array.
+ * @returns {Array} A new array with the elements inserted at the specified index.
+ * 
+ * @example
+ * 
+ * // Insert elements at an integer index
+ * const originalArray = [1, 2, 3, 4];
+ * const result = _insertAt(originalArray, 2, 'a', 'b');
+ * console.log(result); // logs [1, 2, 'a', 'b', 3, 4]
+ * 
+ * @example
+ * 
+ * // Insert elements at a floating point index
+ * const originalArray = [1, 2, 3, 4];
+ * const result = _insertAt(originalArray, 2.5, 'a', 'b');
+ * console.log(result); // logs [1, 2, 'a', 'b', 3, 4]
+ */
+export const _insertAt = (array, index, ...elements) => {
+    const floorIndex = Math.floor(index);
+
+    if (index < 0 || index > array.length) return array;
+    return [...array.slice(0, floorIndex), ...elements, ...array.slice(floorIndex)];
+}
